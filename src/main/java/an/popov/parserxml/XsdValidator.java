@@ -20,20 +20,6 @@ import org.xml.sax.SAXException;
 @Service
 @Slf4j
 public class XsdValidator {
-
-  private Schema getSchema(MultipartFile xsdFile)
-      throws ParserConfigurationException, IOException, SAXException {
-    SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    return schemaFactory.newSchema(
-        new DOMSource(getDocumentBuilder().parse(xsdFile.getInputStream())));
-  }
-
-  private DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
-    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    factory.setNamespaceAware(true);
-    return factory.newDocumentBuilder();
-  }
-
   public boolean isValid(List<MultipartFile> xmlFiles, MultipartFile xsdFile)
       throws ParserConfigurationException, IOException, SAXException {
 
@@ -52,5 +38,18 @@ public class XsdValidator {
       }
     }
     return true;
+  }
+
+  private Schema getSchema(MultipartFile xsdFile)
+      throws ParserConfigurationException, IOException, SAXException {
+    SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    return schemaFactory.newSchema(
+        new DOMSource(getDocumentBuilder().parse(xsdFile.getInputStream())));
+  }
+
+  private DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    factory.setNamespaceAware(true);
+    return factory.newDocumentBuilder();
   }
 }
